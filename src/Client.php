@@ -368,21 +368,21 @@ class Client
             sleep(1);
             [$status, , $content] = $this->request(Request::create(self::API_HOST . $jobURL));
             if ($content && ($content['status'] ?? '') == 'failed') {
-                throw new Exception("Could not create database");
+                throw new APIException("Could not create database", $status);
             }
         } while ($status == 200);
 
         if ($status == 201) {    // Created
             return basename($content['resource_links'][0]);    // '/v2/mysqldatabases/ID123_newdb'
         } else {
-            throw new Exception("Uh oh! Status code $status, content: '$content'");
+            throw new APIException($content, $status);
         }
     }
 
     /**
      * @param Request $request
      * @return array    [int $status, string[] $headers, string $body]
-     * @throws Exception
+     * @throws APIException
      */
     protected function request(Request $request): array
     {
@@ -402,10 +402,10 @@ class Client
         $body = $response->getContent(false) ? $response->toArray(false) : '';
 
         if ($status >= 400) {
-            $message = $body
-                ? "Error code '{$body['error_code']}', text '{$body['error_text']}'"
-                : '(no response)';
-            throw new Exception("Status $status, $message");
+            throw new APIException(
+                $body ? $body['error_text'] : "HTTP Status $status (no response body)",
+                $body ? $body['error_code'] : $status
+            );
         }
 
         return [$status, $headers, $body];
