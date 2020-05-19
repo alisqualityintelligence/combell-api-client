@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 class Client
 {
 
-    const API_HOST = 'https://api.combell.com';
+    public const API_HOST = 'https://api.combell.com';
 
     /**
      * @var string
@@ -49,7 +49,7 @@ class Client
         string $apiSecret,
         OutputInterface $out
     ): self {
-        return new self(
+        return new static(
             $apiKey,
             $apiSecret,
             HttpClient::create(),
