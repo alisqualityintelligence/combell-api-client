@@ -1,0 +1,21 @@
+{
+    "name": "alisqualityintelligence/combell-api-client",
+    "description": "Client for Combell.com API (v2)",
+    "authors": [{
+      "name": "Jeroen Versteeg",
+      "email": "jeroen.versteeg@alis.nl"
+    }],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "CombellAPI\\": "src/"
+        }
+    },
+    "require": {
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "symfony/console": "^5.0",
+        "symfony/http-client": "^5.0",
+        "symfony/http-foundation": "^5.0"
+    }
+}
