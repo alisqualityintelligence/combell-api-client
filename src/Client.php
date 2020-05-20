@@ -26,6 +26,9 @@ class Client
      * @var HttpClientInterface
      */
     protected $httpClient;
+    
+    protected $rateLimitRemaining;
+    protected $rateLimitReset;
 
     /**
      * @var OutputInterface
@@ -388,6 +391,15 @@ class Client
     {
         $this->sign($request);
 
+        if (
+            $this->rateLimitRemaining !== null &&  // not first request
+            $this->rateLimitRemaining <= 0
+        ) {
+            $this->log('Rate limit hit. Waiting for next interval zzz', true);
+            sleep($this->rateLimitReset);
+            $this->log(' done!', true);
+        }
+        
         $response = $this->httpClient->request(
             $request->getMethod(),
             $request->getUri(),
@@ -401,10 +413,13 @@ class Client
         $headers = $response->getHeaders(false);
         $body = $response->getContent(false) ? $response->toArray(false) : '';
 
+        $this->rateLimitRemaining   = (int)current($headers['x-ratelimit-remaining']);
+        $this->rateLimitReset       = (int)current($headers['x-ratelimit-reset']);
+        
         if ($status >= 400) {
             throw new APIException(
-                $body ? $body['error_text'] : "HTTP Status $status (no response body)",
-                $body ? $body['error_code'] : $status
+                $body ? "{$body['error_text']} ({$body['error_code']})" : "HTTP Status $status (no response body)",
+                $status
             );
         }
 
