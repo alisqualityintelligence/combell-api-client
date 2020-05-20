@@ -131,6 +131,31 @@ class Client
         $this->configureWebServer($domain);
     }
 
+    public function toggleFTP(
+        string $domain,
+        bool $enable = false
+    ) {
+        $this->log("Configuring FTP... ");
+
+        $this->request(
+            Request::create(
+                self::API_HOST . "/v2/linuxhostings/$domain/ftp/configuration",
+                Request::METHOD_PUT,
+                [],
+                [],
+                [],
+                ['CONTENT_TYPE' => 'application/json'],
+                json_encode(
+                    [
+                        'enabled' => $enable,
+                    ]
+                )
+            )
+        );
+
+        $this->log("<info>✓</info>\n");
+    }
+
     public function configureSSH(
         string $domain,
         bool $enable = true,
