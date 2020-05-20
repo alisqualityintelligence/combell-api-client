@@ -124,13 +124,6 @@ class Client
         return $accountId;
     }
 
-    public function configureAll(string $domain)
-    {
-        $this->configureSSH($domain);
-        $this->configurePHP($domain);
-        $this->configureWebServer($domain);
-    }
-
     public function toggleFTP(
         string $domain,
         bool $enable = false
