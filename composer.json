@@ -1,9 +1,9 @@
 {
-    "name": "alisqualityintelligence/combell-api-client",
+    "name": "alisqi/combell-api-client",
     "description": "Client for Combell.com API (v2)",
     "authors": [{
       "name": "Jeroen Versteeg",
-      "email": "jeroen.versteeg@alis.nl"
+      "email": "jeroen@alisqi.com"
     }],
     "license": "MIT",
     "autoload": {
