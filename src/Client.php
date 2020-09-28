@@ -62,7 +62,7 @@ class Client
 
     public static function createPassword(): string
     {
-        return bin2hex(openssl_random_pseudo_bytes(10));    // 20 characters
+        return bin2hex(random_bytes(20));    // 20 characters
     }
 
     protected function log(string $msg, bool $veryVerbose = false)
@@ -151,7 +151,7 @@ class Client
 
     public function configureSSH(
         string $domain,
-        bool $enable = true,
+        bool $enable = false,
         array $keys = []
     ) {
         $this->log("Configuring SSH... ");
@@ -209,7 +209,7 @@ class Client
 
     public function configurePHP(
         string $domain,
-        string $version = '7.3',
+        string $version,
         int $memoryLimit = 256
     ) {
         $this->log("Configuring PHP... ");
