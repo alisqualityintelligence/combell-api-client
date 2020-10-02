@@ -62,7 +62,7 @@ class Client
 
     public static function createPassword(): string
     {
-        return bin2hex(random_bytes(20));    // 20 characters
+        return bin2hex(random_bytes(10));    // 20 characters
     }
 
     protected function log(string $msg, bool $veryVerbose = false)
