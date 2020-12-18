@@ -355,6 +355,8 @@ class Client
 
     public function createDatabase(int $accountId, string $name, string $password): string
     {
+	$name = substr($name, 0, 15);	// maximize to 15 chars
+
         return $this->provision(
             Request::create(
                 self::API_HOST . '/v2/mysqldatabases',
