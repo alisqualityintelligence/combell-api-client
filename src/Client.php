@@ -355,7 +355,7 @@ class Client
 
     public function createDatabase(int $accountId, string $name, string $password): string
     {
-	$name = substr($name, 0, 15);	// maximize to 15 chars
+        $name = substr($name, 0, 14);	// maximum of 14 characters
 
         return $this->provision(
             Request::create(
@@ -438,7 +438,7 @@ class Client
         
         if ($status >= 400) {
             throw new APIException(
-                $body ? "{$body['error_text']} ({$body['error_code']})" : "HTTP Status $status (no response body)",
+               is_array($body) && is_array($body[0]) ? "{$body[0]['error_text']} ({$body[0]['error_code']})" : "HTTP Status $status (no response body)",
                 $status
             );
         }
