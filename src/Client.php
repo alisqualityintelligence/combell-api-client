@@ -355,7 +355,7 @@ class Client
 
     public function createDatabase(int $accountId, string $name, string $password): string
     {
-	$name = substr($name, 0, 15);	// maximize to 15 chars
+        $name = substr($name, 0, 14);	// max length for db names
 
         return $this->provision(
             Request::create(
